@@ -71,9 +71,11 @@ services:
     volumes:
       # https://github.com/supabase/supabase/issues/12661
       - ./volumes/api/kong.yml:/home/kong/temp.yml:ro
+
   auth:
     image: supabase/gotrue:v2.164.0
     depends_on:
+      db:
         # Disable this if you are using an external Postgres database
         condition: service_healthy
       analytics:
@@ -356,8 +358,6 @@ services:
   # Comment out everything below this point if you are using an external Postgres database
   db:
     image: supabase/postgres:15.6.1.139
-    ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     healthcheck:
       test: pg_isready -U postgres -h localhost
       interval: 5s
