@@ -76,6 +76,8 @@ services:
     image: supabase/gotrue:v2.164.0
     depends_on:
       db:
+        ports:
+          - ${POSTGRES_PORT}:${POSTGRES_PORT}
         # Disable this if you are using an external Postgres database
         condition: service_healthy
       analytics:
